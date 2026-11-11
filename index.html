@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -31,44 +32,83 @@ small{display:block;margin-top:17px;color:#64748b;line-height:1.5}
 <h1>Calculadora de Cuotas Entel</h1>
 <p>Simula el valor mensual de tu equipo y plan</p>
 </header>
+
 <section>
 <label for="precio">Precio del equipo o accesorio ($)</label>
-<input id="precio" type="number" min="0" value="359990">
+<input id="precio" type="number" min="0" value="0">
+
 <label for="pie">Pie inicial ($)</label>
 <input id="pie" type="number" min="0" value="0">
+
 <label for="plan">Valor mensual del plan ($)</label>
 <input id="plan" type="number" min="0" value="0">
+
 <label for="cuotas">Cantidad de cuotas</label>
 <select id="cuotas"></select>
+
 <label for="tasa">Interés mensual (%)</label>
 <input id="tasa" type="number" min="0" step="0.01" value="3.41">
+
 <div class="resultado">
 <div>Total mensual estimado</div>
 <div class="grande" id="totalMensual"></div>
 <hr>
-<div class="fila"><span>Cuota del equipo</span><strong id="cuotaEquipo"></strong></div>
-<div class="fila"><span>Plan mensual</span><strong id="planResultado"></strong></div>
-<div class="fila"><span>Monto financiado</span><strong id="financiado"></strong></div>
-<div class="fila"><span>Pie inicial</span><strong id="pieResultado"></strong></div>
-<hr>
-<div class="fila"><span>Interés estimado</span><strong id="intereses"></strong></div>
-<div class="fila"><strong>Costo total del equipo</strong><strong id="costoEquipo"></strong></div>
+
+<div class="fila">
+<span>Cuota del equipo</span>
+<strong id="cuotaEquipo"></strong>
 </div>
+
+<div class="fila">
+<span>Plan mensual</span>
+<strong id="planResultado"></strong>
+</div>
+
+<div class="fila">
+<span>Monto financiado</span>
+<strong id="financiado"></strong>
+</div>
+
+<div class="fila">
+<span>Pie inicial</span>
+<strong id="pieResultado"></strong>
+</div>
+
+<hr>
+
+<div class="fila">
+<span>Interés estimado</span>
+<strong id="intereses"></strong>
+</div>
+
+<div class="fila">
+<strong>Costo total del equipo</strong>
+<strong id="costoEquipo"></strong>
+</div>
+</div>
+
 <button id="copiar">Copiar simulación</button>
-<small>Simulación referencial. El total mensual incluye la cuota del equipo y el plan, sin seguros ni otros cargos. El plan puede continuar después de finalizar las cuotas. Confirma los valores y condiciones definitivas en el sistema Entel.</small>
+
+<small>
+Simulación referencial. El total mensual incluye la cuota del equipo y el plan, sin seguros ni otros cargos. El plan puede continuar después de finalizar las cuotas. Confirma los valores y condiciones definitivas en el sistema Entel.
+</small>
 </section>
 </main>
+
 <script>
 const el=id=>document.getElementById(id);
 const pesos=n=>"$"+Math.round(n).toLocaleString("es-CL");
+
 for(let i=3;i<=24;i++){
 const op=document.createElement("option");
 op.value=i;
 op.textContent=i+" cuotas";
-if(i===12)op.selected=true;
+if(i===3)op.selected=true;
 el("cuotas").appendChild(op);
 }
+
 let resumen="";
+
 function calcular(){
 const precio=Math.max(0,Number(el("precio").value)||0);
 const pie=Math.min(precio,Math.max(0,Number(el("pie").value)||0));
@@ -76,11 +116,13 @@ const plan=Math.max(0,Number(el("plan").value)||0);
 const saldo=precio-pie;
 const n=Number(el("cuotas").value);
 const r=Math.max(0,Number(el("tasa").value)||0)/100;
+
 const cuota=r===0?saldo/n:saldo*r/(1-Math.pow(1+r,-n));
 const mensual=Math.round(cuota);
 const total=mensual*n;
 const interes=total-saldo;
 const mensualTotal=mensual+plan;
+
 el("totalMensual").textContent=pesos(mensualTotal);
 el("cuotaEquipo").textContent=pesos(mensual);
 el("planResultado").textContent=pesos(plan);
@@ -88,6 +130,7 @@ el("financiado").textContent=pesos(saldo);
 el("pieResultado").textContent=pesos(pie);
 el("intereses").textContent=pesos(interes);
 el("costoEquipo").textContent=pesos(total+pie);
+
 resumen=[
 "SIMULACIÓN DE CUOTAS ENTEL",
 "Precio del equipo: "+pesos(precio),
@@ -103,7 +146,9 @@ resumen=[
 "Simulación referencial. Valores sujetos a confirmación en Entel."
 ].join("\n");
 }
+
 document.querySelectorAll("input,select").forEach(x=>x.addEventListener("input",calcular));
+
 el("copiar").addEventListener("click",async()=>{
 try{
 await navigator.clipboard.writeText(resumen);
@@ -118,6 +163,7 @@ area.remove();
 alert(ok?"Simulación copiada":"No se pudo copiar automáticamente");
 }
 });
+
 calcular();
 </script>
 </body>
