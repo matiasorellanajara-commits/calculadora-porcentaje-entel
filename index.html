@@ -8,13 +8,10 @@
 *{box-sizing:border-box}
 body{margin:0;background:#edf4ff;font-family:Arial,sans-serif;color:#17304e}
 main{max-width:520px;margin:20px auto;padding:14px}
-header{background:linear-gradient(135deg,#003b96,#087bd5);color:white;border-radius:20px;padding:20px;text-align:center;overflow:hidden}
-.logo{display:block;width:140px;max-height:65px;object-fit:contain;margin:0 auto 8px}
-.cabecera{display:flex;align-items:center;justify-content:center;gap:8px}
-.cabecera div{flex:1}
-.mascota{width:105px;max-height:145px;object-fit:contain}
-h1{font-size:24px;line-height:1.15;margin:8px 0}
-header p{font-size:13px;line-height:1.4;margin:6px 0}
+header{background:linear-gradient(135deg,#003b96,#087bd5);color:white;border-radius:20px;padding:24px 18px;text-align:center}
+.logo{display:block;width:150px;max-width:80%;max-height:85px;object-fit:contain;margin:0 auto 15px}
+h1{font-size:25px;line-height:1.2;margin:8px 0}
+header p{font-size:14px;margin:8px 0 0}
 section{background:white;border-radius:18px;padding:20px;margin-top:15px;box-shadow:0 4px 20px #00204b18}
 label{display:block;font-weight:bold;margin:15px 0 7px}
 input,select{width:100%;font-size:17px;padding:13px;border:1px solid #c7d5e6;border-radius:10px;background:white}
@@ -23,32 +20,27 @@ input,select{width:100%;font-size:17px;padding:13px;border:1px solid #c7d5e6;bor
 .fila{display:flex;justify-content:space-between;gap:12px;margin:13px 0}
 .fila strong{text-align:right}
 hr{border:0;border-top:1px solid #cbdcf2;margin:16px 0}
-button{width:100%;background:#075bb9;color:white;border:0;border-radius:12px;padding:15px;font-size:17px;font-weight:bold;margin-top:16px}
+button{width:100%;background:#075bb9;color:white;border:0;border-radius:12px;padding:15px;font-size:17px;font-weight:bold;margin-top:16px;cursor:pointer}
 small{display:block;margin-top:17px;color:#64748b;line-height:1.5}
 </style>
 </head>
 <body>
 <main>
 <header>
-<img class="logo" src="Entel-logo.png" alt="Logo Entel">
-<div class="cabecera">
-<div>
+<img class="logo" src="entel-logo.png" alt="Logo Entel">
 <h1>Calculadora de Cuotas Entel</h1>
 <p>Simula el valor mensual de tu equipo y plan</p>
-</div>
-<img class="mascota" src="entelin-sin-fondo-_mb.png" alt="Corpóreo Entel">
-</div>
 </header>
 <section>
-<label>Precio del equipo o accesorio ($)</label>
+<label for="precio">Precio del equipo o accesorio ($)</label>
 <input id="precio" type="number" min="0" value="359990">
-<label>Pie inicial ($)</label>
+<label for="pie">Pie inicial ($)</label>
 <input id="pie" type="number" min="0" value="0">
-<label>Valor mensual del plan ($)</label>
+<label for="plan">Valor mensual del plan ($)</label>
 <input id="plan" type="number" min="0" value="0">
-<label>Cantidad de cuotas</label>
+<label for="cuotas">Cantidad de cuotas</label>
 <select id="cuotas"></select>
-<label>Interés mensual (%)</label>
+<label for="tasa">Interés mensual (%)</label>
 <input id="tasa" type="number" min="0" step="0.01" value="3.41">
 <div class="resultado">
 <div>Total mensual estimado</div>
@@ -64,7 +56,7 @@ small{display:block;margin-top:17px;color:#64748b;line-height:1.5}
 <div class="fila"><strong>Costo total del equipo</strong><strong id="costoEquipo"></strong></div>
 </div>
 <button id="copiar">Copiar simulación</button>
-<small>Simulación referencial. El total mensual incluye cuota del equipo y plan, sin seguros ni otros cargos. La tasa del 3,41 % es editable. Confirma valores definitivos en el sistema Entel.</small>
+<small>Simulación referencial. El total mensual incluye la cuota del equipo y el plan, sin seguros ni otros cargos. El plan puede continuar después de finalizar las cuotas. Confirma los valores y condiciones definitivas en el sistema Entel.</small>
 </section>
 </main>
 <script>
@@ -99,26 +91,34 @@ el("totalCuotas").textContent=pesos(total);
 el("intereses").textContent=pesos(interes);
 el("costoEquipo").textContent=pesos(total+pie);
 resumen=[
-"SIMULACION DE CUOTAS ENTEL",
+"SIMULACIÓN DE CUOTAS ENTEL",
 "Precio del equipo: "+pesos(precio),
 "Pie inicial: "+pesos(pie),
 "Monto financiado: "+pesos(saldo),
-"Cuotas: "+n,
-"Interes mensual: "+(r*100).toFixed(2)+"%",
-"Cuota del equipo: "+pesos(mensual),
+"Cantidad de cuotas: "+n,
+"Interés mensual: "+(r*100).toFixed(2)+"%",
+"Cuota mensual del equipo: "+pesos(mensual),
 "Plan mensual: "+pesos(plan),
-"TOTAL MENSUAL: "+pesos(mensualTotal),
+"TOTAL MENSUAL ESTIMADO: "+pesos(mensualTotal),
 "Intereses estimados: "+pesos(interes),
 "Costo total del equipo: "+pesos(total+pie),
-"Valores referenciales, verificar en Entel."
+"Simulación referencial. Valores sujetos a confirmación en Entel."
 ].join("\n");
 }
 document.querySelectorAll("input,select").forEach(x=>x.addEventListener("input",calcular));
 el("copiar").addEventListener("click",async()=>{
 try{
 await navigator.clipboard.writeText(resumen);
-alert("Simulación copiada");
-}catch(e){alert("No se pudo copiar automáticamente");}
+alert("Simulación copiada. Puedes pegarla en WhatsApp o correo.");
+}catch(e){
+const area=document.createElement("textarea");
+area.value=resumen;
+document.body.appendChild(area);
+area.select();
+const ok=document.execCommand("copy");
+area.remove();
+alert(ok?"Simulación copiada":"No se pudo copiar automáticamente");
+}
 });
 calcular();
 </script>
