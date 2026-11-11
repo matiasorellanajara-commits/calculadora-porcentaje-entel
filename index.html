@@ -1,44 +1,119 @@
-<!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#07458d"><title>Calculadora Porcentaje Entel</title>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Cuotas Entel</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#eef3fa;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#14233b}
-main{max-width:510px;margin:28px auto;padding:16px}.panel{background:white;border-radius:20px;padding:22px;box-shadow:0 10px 35px #163b6c18}
-header{background:linear-gradient(125deg,#073b85,#0871c9);color:white;padding:26px 18px;border-radius:16px;text-align:center;margin-bottom:24px}
-h1{font-size:24px;margin:0 0 6px}header p{margin:0;color:#dceaff;font-size:13px}
-label{display:block;font-weight:650;margin:16px 0 6px}input,select{width:100%;border:1px solid #c9d5e6;border-radius:11px;padding:13px;font-size:18px;background:white;color:#14233b}
-.result{background:#eff5fc;padding:18px;border-radius:14px;margin-top:22px}.muted{color:#546781;font-size:13px}.big{font-size:32px;font-weight:800;color:#073b85;margin:4px 0 14px}
-.line{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #d8e3f0}.line strong{text-align:right}
-button{width:100%;background:#0757ad;border:0;color:white;border-radius:12px;padding:15px;font-size:16px;font-weight:700;margin-top:18px;cursor:pointer}
-small{display:block;color:#66758b;line-height:1.5;margin-top:16px} .error{color:#a32323;font-size:13px;margin-top:5px}
-</style></head><body><main><div class="panel">
-<header><h1>Calculadora Porcentaje Entel</h1><p>Simulador referencial de equipos y accesorios</p></header>
-<label for="precio">Valor del equipo o accesorio ($)</label><input id="precio" type="number" min="0" step="1" value="359990">
-<label for="pie">Pie inicial ($)</label><input id="pie" type="number" min="0" step="1" value="59990"><div id="error" class="error"></div>
-<label for="cuotas">Cantidad de cuotas</label><select id="cuotas"></select>
-<label for="tasa">Tasa de interés mensual (%)</label><input id="tasa" type="number" min="0" step="0.0001" value="3.41">
-<div class="result"><div class="muted">Monto a financiar</div><div class="big" id="capital"></div>
-<div class="muted">Valor cuota mensual estimada</div><div class="big" id="cuota"></div>
-<div class="line"><span>Total de cuotas</span><strong id="totalCuotas"></strong></div>
-<div class="line"><span>Intereses estimados</span><strong id="intereses"></strong></div>
-<div class="line"><span>Pie inicial</span><strong id="pieResultado"></strong></div>
-<div class="line"><span>Costo total incluyendo pie</span><strong id="costo"></strong></div></div>
+*{box-sizing:border-box}
+body{margin:0;background:#edf4ff;font-family:Arial,sans-serif;color:#18304e}
+main{max-width:520px;margin:20px auto;padding:14px}
+header{background:linear-gradient(135deg,#063b9c,#087cda);color:white;text-align:center;border-radius:20px;padding:25px 15px}
+.marca{font-size:58px;font-weight:900;letter-spacing:-6px;line-height:1}
+.marca span{color:#ff681d}
+h1{font-size:25px;margin:14px 0 7px}
+header p{font-size:14px;margin:0}
+section{background:white;border-radius:18px;padding:21px;margin-top:15px;box-shadow:0 4px 20px #00204b16}
+label{display:block;font-weight:bold;margin:15px 0 7px}
+input,select{width:100%;font-size:17px;padding:13px;border:1px solid #c7d5e6;border-radius:10px;background:white}
+.resultado{background:#eaf3ff;padding:18px;border-radius:15px;margin-top:20px}
+.grande{font-size:32px;font-weight:800;color:#0055b5;margin:10px 0 18px}
+.fila{display:flex;justify-content:space-between;gap:12px;margin:13px 0}
+.fila strong{text-align:right}
+hr{border:0;border-top:1px solid #cbdcf2;margin:16px 0}
+button{width:100%;background:#075bb9;color:white;border:0;border-radius:12px;padding:15px;font-size:17px;font-weight:bold;margin-top:16px}
+small{display:block;margin-top:17px;color:#64748b;line-height:1.5}
+</style>
+</head>
+<body>
+<main>
+<header>
+<div class="marca">e<span>)</span></div>
+<h1>Calculadora de Cuotas Entel</h1>
+<p>Simula el valor mensual de tu equipo y plan</p>
+</header>
+<section>
+<label>Precio del equipo o accesorio ($)</label>
+<input id="precio" type="number" min="0" value="359990">
+<label>Pie inicial ($)</label>
+<input id="pie" type="number" min="0" value="0">
+<label>Valor mensual del plan ($)</label>
+<input id="plan" type="number" min="0" value="0">
+<label>Cantidad de cuotas</label>
+<select id="cuotas"></select>
+<label>Interés mensual (%)</label>
+<input id="tasa" type="number" min="0" step="0.01" value="3.41">
+<div class="resultado">
+<div>Total mensual estimado</div>
+<div class="grande" id="totalMensual"></div>
+<hr>
+<div class="fila"><span>Cuota del equipo</span><strong id="cuotaEquipo"></strong></div>
+<div class="fila"><span>Plan mensual</span><strong id="planResultado"></strong></div>
+<div class="fila"><span>Monto financiado</span><strong id="financiado"></strong></div>
+<div class="fila"><span>Pie inicial</span><strong id="pieResultado"></strong></div>
+<hr>
+<div class="fila"><span>Total cuotas del equipo</span><strong id="totalCuotas"></strong></div>
+<div class="fila"><span>Intereses estimados</span><strong id="intereses"></strong></div>
+<div class="fila"><strong>Costo total del equipo con pie</strong><strong id="costoEquipo"></strong></div>
+</div>
 <button id="copiar">Copiar simulación</button>
-<small>Simulación de cuotas fijas mediante amortización mensual, sin comisiones ni seguros. Tasa predeterminada de referencia: 3,41 % mensual. Los valores pueden diferir del sistema comercial Entel. Confirmar condiciones antes de informar al cliente. Herramienta independiente, no oficial.</small>
-</div></main><script>
-const $=id=>document.getElementById(id);
-for(let n=3;n<=24;n++){const o=document.createElement('option');o.value=n;o.textContent=n+' cuotas';if(n===12)o.selected=true;$('cuotas').append(o)}
-const pesos=n=>Math.round(n).toLocaleString('es-CL',{style:'currency',currency:'CLP',maximumFractionDigits:0});
-let resumen='';
-function calcular(){
-const precio=Math.max(0,Number($('precio').value)||0),pieIngresado=Math.max(0,Number($('pie').value)||0);
-const pie=Math.min(precio,pieIngresado),capital=precio-pie,n=Number($('cuotas').value),r=Math.max(0,Number($('tasa').value)||0)/100;
-$('error').textContent=pieIngresado>precio?'El pie supera el valor del equipo; se limita al precio.':'';
-const cuota=capital===0?0:r===0?capital/n:capital*r/(1-Math.pow(1+r,-n));
-const total=cuota*n,intereses=total-capital,costo=total+pie;
-for(const [id,val] of Object.entries({capital,cuota,totalCuotas:total,intereses,pieResultado:pie,costo}))$(id).textContent=pesos(val);
-resumen=`Calculadora Porcentaje Entel\nPrecio: ${pesos(precio)}\nPie: ${pesos(pie)}\nMonto financiado: ${pesos(capital)}\n${n} cuotas de ${pesos(cuota)}\nTasa mensual: ${(r*100).toFixed(2)}%\nIntereses estimados: ${pesos(intereses)}\nCosto total con pie: ${pesos(costo)}\nSimulación referencial, no oficial.`;
+<small>Simulación referencial. El total mensual incluye cuota del equipo y plan, pero no seguros ni otros cargos. La tasa del 3,41 % es editable. Confirma valores definitivos en el sistema Entel.</small>
+</section>
+</main>
+<script>
+const el=id=>document.getElementById(id);
+const pesos=n=>"$"+Math.round(n).toLocaleString("es-CL");
+for(let i=3;i<=24;i++){
+const op=document.createElement("option");
+op.value=i;
+op.textContent=i+" cuotas";
+if(i===12)op.selected=true;
+el("cuotas").appendChild(op);
 }
-document.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',calcular));
-$('copiar').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(resumen);$('copiar').textContent='¡Simulación copiada!';setTimeout(()=>$('copiar').textContent='Copiar simulación',1800)}catch(e){alert('No se pudo copiar automáticamente.')}});calcular();
-</script></body></html>
+let resumen="";
+function calcular(){
+const precio=Math.max(0,Number(el("precio").value)||0);
+const pie=Math.min(precio,Math.max(0,Number(el("pie").value)||0));
+const plan=Math.max(0,Number(el("plan").value)||0);
+const saldo=precio-pie;
+const n=Number(el("cuotas").value);
+const r=Math.max(0,Number(el("tasa").value)||0)/100;
+const cuota=r===0?saldo/n:saldo*r/(1-Math.pow(1+r,-n));
+const mensual=Math.round(cuota);
+const total=mensual*n;
+const interes=total-saldo;
+const mensualTotal=mensual+plan;
+el("totalMensual").textContent=pesos(mensualTotal);
+el("cuotaEquipo").textContent=pesos(mensual);
+el("planResultado").textContent=pesos(plan);
+el("financiado").textContent=pesos(saldo);
+el("pieResultado").textContent=pesos(pie);
+el("totalCuotas").textContent=pesos(total);
+el("intereses").textContent=pesos(interes);
+el("costoEquipo").textContent=pesos(total+pie);
+resumen=[
+"SIMULACION DE CUOTAS ENTEL",
+"Precio del equipo: "+pesos(precio),
+"Pie inicial: "+pesos(pie),
+"Monto financiado: "+pesos(saldo),
+"Cuotas: "+n,
+"Interes mensual: "+(r*100).toFixed(2)+"%",
+"Cuota del equipo: "+pesos(mensual),
+"Plan mensual: "+pesos(plan),
+"TOTAL MENSUAL: "+pesos(mensualTotal),
+"Intereses estimados: "+pesos(interes),
+"Costo total del equipo: "+pesos(total+pie),
+"Valores referenciales, verificar en Entel."
+].join("\n");
+}
+document.querySelectorAll("input,select").forEach(x=>x.addEventListener("input",calcular));
+el("copiar").addEventListener("click",async()=>{
+try{
+await navigator.clipboard.writeText(resumen);
+alert("Simulación copiada");
+}catch(e){alert("No se pudo copiar automáticamente");}
+});
+calcular();
+</script>
+</body>
+</html>
