@@ -6,14 +6,16 @@
 <title>Calculadora de Cuotas Entel</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#edf4ff;font-family:Arial,sans-serif;color:#18304e}
+body{margin:0;background:#edf4ff;font-family:Arial,sans-serif;color:#17304e}
 main{max-width:520px;margin:20px auto;padding:14px}
-header{background:linear-gradient(135deg,#063b9c,#087cda);color:white;text-align:center;border-radius:20px;padding:25px 15px}
-.marca{font-size:58px;font-weight:900;letter-spacing:-6px;line-height:1}
-.marca span{color:#ff681d}
-h1{font-size:25px;margin:14px 0 7px}
-header p{font-size:14px;margin:0}
-section{background:white;border-radius:18px;padding:21px;margin-top:15px;box-shadow:0 4px 20px #00204b16}
+header{background:linear-gradient(135deg,#003b96,#087bd5);color:white;border-radius:20px;padding:20px;text-align:center;overflow:hidden}
+.logo{display:block;width:140px;max-height:65px;object-fit:contain;margin:0 auto 8px}
+.cabecera{display:flex;align-items:center;justify-content:center;gap:8px}
+.cabecera div{flex:1}
+.mascota{width:105px;max-height:145px;object-fit:contain}
+h1{font-size:24px;line-height:1.15;margin:8px 0}
+header p{font-size:13px;line-height:1.4;margin:6px 0}
+section{background:white;border-radius:18px;padding:20px;margin-top:15px;box-shadow:0 4px 20px #00204b18}
 label{display:block;font-weight:bold;margin:15px 0 7px}
 input,select{width:100%;font-size:17px;padding:13px;border:1px solid #c7d5e6;border-radius:10px;background:white}
 .resultado{background:#eaf3ff;padding:18px;border-radius:15px;margin-top:20px}
@@ -28,9 +30,14 @@ small{display:block;margin-top:17px;color:#64748b;line-height:1.5}
 <body>
 <main>
 <header>
-<div class="marca">e<span>)</span></div>
+<img class="logo" src="Entel-logo.png" alt="Logo Entel">
+<div class="cabecera">
+<div>
 <h1>Calculadora de Cuotas Entel</h1>
 <p>Simula el valor mensual de tu equipo y plan</p>
+</div>
+<img class="mascota" src="entelin-sin-fondo-_mb.png" alt="Corpóreo Entel">
+</div>
 </header>
 <section>
 <label>Precio del equipo o accesorio ($)</label>
@@ -57,7 +64,7 @@ small{display:block;margin-top:17px;color:#64748b;line-height:1.5}
 <div class="fila"><strong>Costo total del equipo con pie</strong><strong id="costoEquipo"></strong></div>
 </div>
 <button id="copiar">Copiar simulación</button>
-<small>Simulación referencial. El total mensual incluye cuota del equipo y plan, pero no seguros ni otros cargos. La tasa del 3,41 % es editable. Confirma valores definitivos en el sistema Entel.</small>
+<small>Simulación referencial. El total mensual incluye cuota del equipo y plan, sin seguros ni otros cargos. La tasa del 3,41 % es editable. Confirma valores definitivos en el sistema Entel.</small>
 </section>
 </main>
 <script>
