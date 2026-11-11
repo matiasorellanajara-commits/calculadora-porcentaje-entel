@@ -51,8 +51,7 @@ small{display:block;margin-top:17px;color:#64748b;line-height:1.5}
 <div class="fila"><span>Monto financiado</span><strong id="financiado"></strong></div>
 <div class="fila"><span>Pie inicial</span><strong id="pieResultado"></strong></div>
 <hr>
-<div class="fila"><span>Total cuotas del equipo</span><strong id="totalCuotas"></strong></div>
-<div class="fila"><span>Intereses estimados</span><strong id="intereses"></strong></div>
+<div class="fila"><span>Interés estimado</span><strong id="intereses"></strong></div>
 <div class="fila"><strong>Costo total del equipo</strong><strong id="costoEquipo"></strong></div>
 </div>
 <button id="copiar">Copiar simulación</button>
@@ -87,7 +86,6 @@ el("cuotaEquipo").textContent=pesos(mensual);
 el("planResultado").textContent=pesos(plan);
 el("financiado").textContent=pesos(saldo);
 el("pieResultado").textContent=pesos(pie);
-el("totalCuotas").textContent=pesos(total);
 el("intereses").textContent=pesos(interes);
 el("costoEquipo").textContent=pesos(total+pie);
 resumen=[
